@@ -1,7 +1,7 @@
 FROM debian:stretch
 
 ENV AT_VER at11.0
-WORKDIR /tmp
+WORKDIR /root
 
 RUN apt-get update && apt-get install -y curl cmake git gnupg && apt-get clean
 
