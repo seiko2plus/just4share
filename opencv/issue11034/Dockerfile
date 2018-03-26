@@ -45,6 +45,10 @@ RUN mkdir opencv/build && cd opencv/build \
  && make -j$(nproc) install
 
 ENV OPENCV_TEST_DATA_PATH=/usr/src/opencv_extra/testdata
+
+RUN opencv/build/bin/opencv_test_imgcodecs > /tests/before/opencv_test_imgcodecs.log 2>&1; exit 0
+RUN opencv/build/bin/opencv_perf_imgcodecs > /tests/before/opencv_perf_imgcodecs.log 2>&1; exit 0
+
 RUN opencv/build/bin/opencv_test_videoio > /tests/before/opencv_test_videoio.log 2>&1; exit 0
 RUN opencv/build/bin/opencv_perf_videoio > /tests/before/opencv_perf_videoio.log 2>&1; exit 0
 
@@ -64,7 +68,7 @@ ENV THE_SOURCE=https://raw.githubusercontent.com/seiko2plus/just4share/master/op
 RUN curl $THE_SOURCE -o cv_grep_frame.cpp \
  && g++ -lopencv_core -lopencv_videoio -lopencv_imgcodecs -o cv_grep_frame ./cv_grep_frame.cpp \
  && mkdir /tests/before/cv_frames \
- && ./cv_grep_frame -video=$THE_VIDEO -output=/tests/before/cv_frames/ -sec=60
+ && ./cv_grep_frame -video=$THE_VIDEO -output=/tests/before/cv_frames/ -fes=60 -pos=29
 
 # Now it's the time to disable color space conversion optimization
 
@@ -83,6 +87,9 @@ RUN cd ffmpeg \
 RUN mkdir -p /tests/after && cd ffmpeg \
  && make check > /tests/after/ffmpeg_check.log 2>&1; exit 0
 
+RUN opencv/build/bin/opencv_test_imgcodecs > /tests/after/opencv_test_imgcodecs.log 2>&1; exit 0
+RUN opencv/build/bin/opencv_perf_imgcodecs > /tests/after/opencv_perf_imgcodecs.log 2>&1; exit 0
+
 RUN opencv/build/bin/opencv_test_videoio > /tests/after/opencv_test_videoio.log 2>&1; exit 0
 RUN opencv/build/bin/opencv_perf_videoio > /tests/after/opencv_perf_videoio.log 2>&1; exit 0
 
@@ -90,6 +97,6 @@ RUN mkdir /tests/after/frames \
  && ffmpeg -i $THE_VIDEO -filter:v fps=fps=1/60 /tests/after/frames/%0d.png \
  && ffmpeg -i $THE_VIDEO -filter:v fps=fps=1/60 /tests/after/frames/%0d.jpg \
  && mkdir /tests/after/cv_frames \
- && ./cv_grep_frame -video=$THE_VIDEO -output=/tests/after/cv_frames/ -sec=60
+ && ./cv_grep_frame -video=$THE_VIDEO -output=/tests/after/cv_frames/ -fes=60 -pos=29
 
 WORKDIR /tests
