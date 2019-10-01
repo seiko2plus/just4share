@@ -48,7 +48,7 @@ struct timing
     steady_clock::time_point start;
 };
 
-#define TIMING(x) timing t("Latency of " + string(__func__) + "(" THE_INTRIN ")")
+#define TIMING() timing t("Latency of " + string(__func__) + "(" THE_INTRIN ")")
 #if SPLAT
     #define DATA(x) {x, x, x, x}
 #else // ld
@@ -59,7 +59,7 @@ typedef __vector signed int vec_int4;
 
 int v_msum()
 {
-    TIMING(__func__);
+    TIMING();
     vec_int4 r = DATA(1), a = DATA(2), b = DATA(3);
     for (int i = 0; i < LOOP_LN; ++i)
     {
@@ -70,7 +70,7 @@ int v_msum()
 
 int v_msum_add()
 {
-    TIMING(__func__);
+    TIMING();
     vec_int4 r = DATA(1), a = DATA(2), b = DATA(3);
     for (int i = 0; i < LOOP_LN; ++i)
     {
@@ -83,7 +83,7 @@ int v_msum_add()
 
 int v_msum_no_overlap()
 {
-    TIMING(__func__);
+    TIMING();
     vec_int4 r = DATA(1), a = DATA(2), b = DATA(3);
     for (int i = 0; i < LOOP_LN; ++i)
     {
@@ -94,7 +94,7 @@ int v_msum_no_overlap()
 
 int v_msum_add_no_overlap()
 {
-    TIMING(__func__);
+    TIMING();
     vec_int4 r = {1}, a = {2}, b = {3};
     for (int i = 0; i < LOOP_LN; ++i)
     {
