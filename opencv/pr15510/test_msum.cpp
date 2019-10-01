@@ -95,7 +95,7 @@ int v_msum_no_overlap()
 int v_msum_add_no_overlap()
 {
     TIMING();
-    vec_int4 r = {1}, a = {2}, b = {3};
+    vec_int4 r = DATA(1), a = DATA(2), b = DATA(3);
     for (int i = 0; i < LOOP_LN; ++i)
     {
         vec_int4 sum;
