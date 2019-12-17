@@ -45,10 +45,10 @@ typedef uint32x4_t  v_u32;
 typedef uint64x2_t  v_u64;
 typedef float32x4_t v_f32;
 
-typedef unsigned char  s_u8;
-typedef unsigned short s_u16;
-typedef unsigned int   s_u32;
-typedef unsigned long long s_u64;
+typedef uint8_t  s_u8;
+typedef uint16_t s_u16;
+typedef uint32_t s_u32;
+typedef uint64_t s_u64;
 typedef float s_f32;
 
 #define EXPAND(X) X
